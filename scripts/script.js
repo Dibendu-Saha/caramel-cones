@@ -1,20 +1,44 @@
 
 var navEl = document.querySelector('.nav-bar'),
+    navLinkEl = document.querySelectorAll('.nav-link');
     landingEl = document.querySelector('header'),
-    options = {
-        root: null,
-        threshold: 0
-    };
+    collectionTitle = document.querySelector('.title'),
+    imgEl = document.querySelector('.img-container'),
+    collectionSectionEl = document.querySelector('.section-collections');
 
-var obs = new IntersectionObserver(entries => {
+
+var obs1 = new IntersectionObserver(entries => {
+    var entry = entries[0];
+ 
+    if (!entry.isIntersecting) {
+        navEl.classList.add('sticky', 'nav-bg');
+        navLinkEl.forEach(el => el.classList.add('nav-text'));
+    }
+    else {
+        navEl.classList.remove('sticky', 'nav-bg');
+        navLinkEl.forEach(el => el.classList.remove('nav-text'));
+    }
+}, {
+    root: null,
+    threshold: 0.1
+});
+
+obs1.observe(landingEl);
+
+
+
+var obs2 = new IntersectionObserver(entries => {
     var entry = entries[0];
 
-    if (!entry.isIntersecting)
-        navEl.classList.add('nav-bg');
-    else
-        navEl.classList.remove('nav-bg');
-}, options);
+    if (entry.isIntersecting) {
+        imgEl.classList.add('reveal');
+    } else {
+        imgEl.classList.remove('reveal');
+    }
 
-obs.observe(landingEl);
+}, {
+    root: null,
+    threshold: 0.6
+});
 
-
+obs2.observe(collectionSectionEl);
